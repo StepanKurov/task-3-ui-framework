@@ -7,8 +7,11 @@ def test_scroll(page):
     scroll_page = ScrollPage(page)
     page_actions.goto("/infinite_scroll")
 
-    while scroll_page.get_paragraph_count() < 10:
+    expected_result = 10
+    while scroll_page.get_paragraph_count() < expected_result:
         scroll_page.scroll_to_last_paragraph()
 
-    paragraph_count = scroll_page.get_paragraph_count()
-    assert paragraph_count >= 10
+    actual_result = scroll_page.get_paragraph_count()
+    assert actual_result >= expected_result, (
+        f"Ожидали: {expected_result}, Получили: {actual_result}"
+    )
