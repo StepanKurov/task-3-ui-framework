@@ -2,17 +2,12 @@ from pathlib import Path
 
 from playwright.sync_api import Page
 
-from ui.page_actions import PageActions
 from ui.web_element import WebElement
 
 
 class UploadFilePage:
-    UPLOAD_FILE_PATH = '/upload'
-
     def __init__(self, page: Page):
         self.page = page
-        self.page_actions = PageActions(page)
-
         self.file_input = WebElement(
             self.page.locator("#file-upload"),
             description="Select file to upload"
@@ -32,9 +27,6 @@ class UploadFilePage:
             self.page.locator("#uploaded-files"),
             description="Name uploaded file"
         )
-
-    def open(self):
-        self.page_actions.goto(self.UPLOAD_FILE_PATH)
 
     def upload_file(self, file_path: Path):
         self.file_input.set_input_files(file_path)

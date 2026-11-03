@@ -1,16 +1,11 @@
 from playwright.sync_api import Page
 
-from ui.page_actions import PageActions
 from ui.web_element import WebElement
 
 
 class FramesPage:
-    FRAMES_PATH = "/nested_frames"
-
     def __init__(self, page: Page):
         self.page = page
-        self.page_actions = PageActions(page)
-
         self.middle_text = WebElement(self.page
             .frame_locator('frame[name="frame-top"]')
             .frame_locator('frame[name="frame-middle"]')
@@ -46,6 +41,3 @@ class FramesPage:
 
     def get_bottom_text(self):
         return self.bottom_text.get_text_content().strip()
-
-    def open(self):
-        self.page_actions.goto(self.FRAMES_PATH)

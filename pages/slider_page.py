@@ -1,15 +1,11 @@
 from playwright.sync_api import Page
 
-from ui.page_actions import PageActions
 from ui.web_element import WebElement
 
 
 class SliderPage:
-    SLIDER_PATH = "/horizontal_slider"
-
     def __init__(self, page: Page):
         self.page = page
-        self.page_actions = PageActions(page)
         self.horizontal_slider = WebElement(
             self.page.locator('input[type="range"]'),
             description="Slider"
@@ -20,12 +16,17 @@ class SliderPage:
         )
 
     def set_slider_value(self, value):
-        press_count = int(value / 0.5)
-        for slide in range(press_count):
+        for slide in range(value):
             self.horizontal_slider.press("ArrowRight")
 
     def get_slider_value(self):
         return self.slider_value.get_text_content().strip()
 
-    def open(self):
-        self.page_actions.goto(self.SLIDER_PATH)
+    def get_min_value(self):
+        return float(self.horizontal_slider.get_attribute("min"))
+
+    def get_max_value(self):
+        return float(self.horizontal_slider.get_attribute("max"))
+
+    def get_step(self):
+        return float(self.horizontal_slider.get_attribute("step"))
